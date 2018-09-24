@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class LocationActivity extends AppCompatActivity {
 
+    public static final String WALLPAPER = "Wallpaper";
     EditText locationText;
     Button searchButton;
     ImageView gpsButton;
@@ -29,7 +30,10 @@ public class LocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("SattEarthTag", "Search onClick() triggered");
+                Toast.makeText(LocationActivity.this, "Search clicked()", Toast.LENGTH_SHORT).show();
+
                 Intent searchIntent = new Intent(LocationActivity.this, PreviewActivity.class);
+                searchIntent.putExtra(WALLPAPER, "wallpaper1");
                 startActivity(searchIntent);
             }
         });
@@ -39,8 +43,12 @@ public class LocationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO try to get gps data
                 //TODO when data is gained send it to PreviewActivity
-                Toast.makeText(LocationActivity.this, "Gps clicked()", Toast.LENGTH_SHORT).show();
                 Log.d("SattEarthTag", "GPS onClick() triggered");
+                Toast.makeText(LocationActivity.this, "Gps clicked()", Toast.LENGTH_SHORT).show();
+
+                Intent searchIntent = new Intent(LocationActivity.this, PreviewActivity.class);
+                searchIntent.putExtra(WALLPAPER, "wallpaper2");
+                startActivity(searchIntent);
             }
         });
     }
