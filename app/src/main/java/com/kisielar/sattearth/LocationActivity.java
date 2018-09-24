@@ -30,7 +30,6 @@ public class LocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("SattEarthTag", "Search onClick() triggered");
-                Toast.makeText(LocationActivity.this, "Search clicked()", Toast.LENGTH_SHORT).show();
 
                 Intent searchIntent = new Intent(LocationActivity.this, PreviewActivity.class);
                 searchIntent.putExtra(WALLPAPER, "wallpaper1");
@@ -44,7 +43,6 @@ public class LocationActivity extends AppCompatActivity {
                 //TODO try to get gps data
                 //TODO when data is gained send it to PreviewActivity
                 Log.d("SattEarthTag", "GPS onClick() triggered");
-                Toast.makeText(LocationActivity.this, "Gps clicked()", Toast.LENGTH_SHORT).show();
 
                 Intent searchIntent = new Intent(LocationActivity.this, PreviewActivity.class);
                 searchIntent.putExtra(WALLPAPER, "wallpaper2");
