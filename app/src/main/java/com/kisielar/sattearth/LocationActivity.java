@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class LocationActivity extends AppCompatActivity {
 
-    public static final String WALLPAPER = "Wallpaper";
+    public static final String WALLPAPER_KEY = "Wallpaper";
+    public static final String LOCATION_KEY = "Location";
+    public static final String METHOD_KEY = "Method";
+    
     EditText locationText;
     Button searchButton;
     ImageView gpsButton;
@@ -30,9 +32,12 @@ public class LocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("SattEarthTag", "Search onClick() triggered");
+                String userLocation = locationText.getText().toString();
 
                 Intent searchIntent = new Intent(LocationActivity.this, PreviewActivity.class);
-                searchIntent.putExtra(WALLPAPER, "wallpaper1");
+                searchIntent.putExtra(WALLPAPER_KEY, "wallpaper1");
+                searchIntent.putExtra(LOCATION_KEY, userLocation);
+                searchIntent.putExtra(METHOD_KEY, "search");
                 startActivity(searchIntent);
             }
         });
@@ -45,9 +50,12 @@ public class LocationActivity extends AppCompatActivity {
                 Log.d("SattEarthTag", "GPS onClick() triggered");
 
                 Intent searchIntent = new Intent(LocationActivity.this, PreviewActivity.class);
-                searchIntent.putExtra(WALLPAPER, "wallpaper2");
+                searchIntent.putExtra(WALLPAPER_KEY, "wallpaper2");
+                searchIntent.putExtra(METHOD_KEY, "gps");
                 startActivity(searchIntent);
             }
         });
     }
+
+
 }

@@ -4,7 +4,7 @@
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
         android:id="@+id/action_accept"
-        android:title="Accept"
+        android:title="Set as wallpaper"
         app:showAsAction="ifRoom" />
 
     <!-- Settings, should always be in the overflow -->
