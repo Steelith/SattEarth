@@ -1,6 +1,7 @@
 package com.kisielar.sattearth;
 
 import android.Manifest;
+import android.app.DownloadManager;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -18,7 +19,23 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -26,6 +43,14 @@ public class PreviewActivity extends AppCompatActivity {
     int actualWallpaperId;
     ConstraintLayout layout;
     TextView previewTextView;
+
+    final String BASE_LINK_FOR_IMAGE = "https://epic.gsfc.nasa.gov/archive/enhanced/";
+    final String BASE_LINK_FOR_JSON = "https://epic.gsfc.nasa.gov/api/enhanced/date/";
+    Calendar calendar = Calendar.getInstance();
+    int year = calendar.get(Calendar.YEAR);
+    int month = calendar.get(Calendar.MONTH) + 1;
+    //TODO doesn't work on first day of month
+    int day = calendar.get(Calendar.DAY_OF_MONTH) - 1;
 
     final int REQUEST_CODE = 123;
     final long MIN_TIME = 5000;
@@ -40,6 +65,11 @@ public class PreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preview);
         layout = findViewById(R.id.previewLayout);
         previewTextView = findViewById(R.id.previewTextView);
+
+        String jsonLink = String.format(Locale.getDefault(), BASE_LINK_FOR_JSON + "%d-%02d-%02d", year, month, day);
+        //String imageLink = String.format(Locale.getDefault(), BASE_LINK_FOR_IMAGE + "%d/%02d/%02d/jpg/",year, month, day);
+        Log.d("SattEarthTag", jsonLink);
+        doNetworking(jsonLink);
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
@@ -131,5 +161,27 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         locationManager.requestLocationUpdates(LOCATION_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
+    }
+
+    private void doNetworking(String url) {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("SattEarthTag", "Response is: " + response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("SattEarthTag", "Response failed");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 }

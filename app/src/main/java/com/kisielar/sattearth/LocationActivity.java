@@ -14,7 +14,7 @@ public class LocationActivity extends AppCompatActivity {
     public static final String WALLPAPER_KEY = "Wallpaper";
     public static final String LOCATION_KEY = "Location";
     public static final String METHOD_KEY = "Method";
-    
+
     EditText locationText;
     Button searchButton;
     ImageView gpsButton;
